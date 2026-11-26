@@ -3,7 +3,21 @@ resource "google_container_cluster" "example" {
   project  = "example-project"
   location = "europe-west1"
 
-  enable_autopilot = true
+  initial_node_count = 1
+  node_config {
+    service_account = "nodes@example-project.iam.gserviceaccount.com"
+    workload_metadata_config {
+      mode = "GKE_METADATA"
+    }
+  }
+  datapath_provider = "ADVANCED_DATAPATH"
+  resource_labels = {
+    env = "example"
+  }
+  ip_allocation_policy {}
+  private_cluster_config {
+    enable_private_nodes = true
+  }
 
   control_plane_endpoints_config {
     dns_endpoint_config {
