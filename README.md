@@ -11,14 +11,14 @@ DNS-based endpoint, authorized by IAM, as the alternative:
 - [A new DNS-based endpoint for the GKE control plane](https://cloud.google.com/blog/products/containers-kubernetes/new-dns-based-endpoint-for-the-gke-control-plane/)
 
 The two examples differ in one line. Both are written so that GCP-0061 is the only check that can
-fail. Requires Docker. Trivy 0.76.2, the official image pinned by digest.
+fail. Requires Docker 23 or later (relative `-v` paths), run from the repository root. Trivy 0.76.2, the official image pinned by digest.
 
 ## 1. DNS endpoint only: GCP-0061 fails
 
 [`dns-endpoint-only/main.tf`](dns-endpoint-only/main.tf)
 
 ```sh
-docker run --rm -v "$PWD/dns-endpoint-only:/src:ro" aquasec/trivy@sha256:8f6bb947dbc528902e11f2f5be52f7b519f6a39d5d148f41166f2040499768fb config /src
+docker run --rm -v ./dns-endpoint-only:/src aquasec/trivy@sha256:8f6bb947dbc528902e11f2f5be52f7b519f6a39d5d148f41166f2040499768fb config /src
 ```
 
 ```
@@ -35,7 +35,7 @@ GCP-0061 (HIGH): Cluster does not have master authorized networks enabled.
 [`with-empty-block/main.tf`](with-empty-block/main.tf)
 
 ```sh
-docker run --rm -v "$PWD/with-empty-block:/src:ro" aquasec/trivy@sha256:8f6bb947dbc528902e11f2f5be52f7b519f6a39d5d148f41166f2040499768fb config /src
+docker run --rm -v ./with-empty-block:/src aquasec/trivy@sha256:8f6bb947dbc528902e11f2f5be52f7b519f6a39d5d148f41166f2040499768fb config /src
 ```
 
 ```
